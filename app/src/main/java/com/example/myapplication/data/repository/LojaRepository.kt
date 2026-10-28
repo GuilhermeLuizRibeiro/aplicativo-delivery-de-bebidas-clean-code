@@ -7,6 +7,7 @@ import com.example.myapplication.data.local.database.AppDatabase
 import com.example.myapplication.data.local.entity.Categoria
 import com.example.myapplication.data.local.entity.ItemCarrinho
 import com.example.myapplication.data.local.entity.Produto
+import kotlinx.coroutines.flow.Flow
 
 class LojaRepository(db: AppDatabase) {
 
@@ -14,8 +15,8 @@ class LojaRepository(db: AppDatabase) {
     private val categoriaDAO: CategoriaDAO = db.categoriaDAO()
     private val carrinhoDAO: CarrinhoDAO = db.carrinhoDAO()
 
-    suspend fun buscarProdutos(): List<Produto> {
-        return produtoDAO.buscarProdutos()
+    suspend fun getAllProdutos(): Flow<List<Produto>> {
+        return produtoDAO.buscarTodos()
     }
 
     suspend fun inserirProduto(produto: Produto) {
@@ -34,8 +35,8 @@ class LojaRepository(db: AppDatabase) {
         return produtoDAO.buscarProdutoPorId(id)
     }
 
-    suspend fun buscarCategorias(): List<Categoria> {
-        return categoriaDAO.buscarCategorias()
+    suspend fun getAllCategorias(): Flow<List<Categoria>> {
+        return categoriaDAO.buscarTodos()
     }
 
     suspend fun buscarCategoriaPorId(id: Int): Categoria? {
@@ -55,7 +56,7 @@ class LojaRepository(db: AppDatabase) {
         categoriaDAO.deletar(categoria)
     }
 
-    suspend fun buscarCarrinho(): List<ItemCarrinho> = carrinhoDAO.buscarItens()
+    suspend fun getAllCarrinho(): Flow<List<ItemCarrinho>> = carrinhoDAO.buscarTodos()
 
     suspend fun salvarItemCarrinho(item: ItemCarrinho) {
         carrinhoDAO.salvar(item)
